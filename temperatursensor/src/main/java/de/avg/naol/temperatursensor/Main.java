@@ -7,7 +7,7 @@ import org.eclipse.paho.client.mqttv3.*;
 public class Main {
     private MqttClient client;
     private ObjectMapper objMap;
-    boolean connected;
+    private boolean connected;
 
     public static void main(String[] args) throws MqttException, InterruptedException, JsonProcessingException {
         new Main();
@@ -26,10 +26,12 @@ public class Main {
             connected = false;
         }
 
-        for(int i=0; i<21 && connected; i++) { // Publish data 20 times
+        for(int i=0; i<21 && connected; i++) { // Publish data i-many times
             publishTemperature();
             Thread.sleep(3000); // Publish new data every 3 seconds
         }
+
+        client.disconnect();
     }
 
     private void publishTemperature() throws MqttException, JsonProcessingException {

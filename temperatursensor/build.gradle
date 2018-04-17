@@ -23,11 +23,18 @@ jar {
     manifest {
         attributes 'Main-Class': 'de.avg.naol.temperatursensor.Main'
     }
+    doFirst {
+        from {
+            configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        }
+    }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
 }
 
 intellij {
     version = '2018.1'
 }
+
 patchPluginXml {
     changeNotes """
       Add change notes here.<br>
