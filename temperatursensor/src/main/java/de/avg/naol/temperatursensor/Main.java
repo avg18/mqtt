@@ -26,7 +26,7 @@ public class Main {
             connected = false;
         }
 
-        for(int i=0; i<21 && connected; i++) { // Publish data i-many times
+        for(int i=0; i<999 && connected; i++) { // Publish data i-many times
             publishTemperature();
             Thread.sleep(3000); // Publish new data every 3 seconds
         }
@@ -38,6 +38,6 @@ public class Main {
         TempUtil payload = new TempUtil();
 
         client.publish("livingroom/temperature", new MqttMessage((objMap.writeValueAsBytes(payload))));
-        System.out.println(objMap.writeValueAsString(payload));
+        System.out.println("livingroom/temperature: " + objMap.writeValueAsString(payload));
     }
 }
