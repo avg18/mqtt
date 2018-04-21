@@ -6,7 +6,6 @@ import org.eclipse.paho.client.mqttv3.*;
 
 import java.io.Console;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Main {
     private final String LIVINGROOM_HEATING = "livingroom/heating";
@@ -24,7 +23,7 @@ public class Main {
         new Main();
     }
 
-    private Main() throws MqttException, InterruptedException, IOException {
+    private Main() throws MqttException, IOException {
         objMap = new ObjectMapper();
         clientData = new ClientData();
         console = System.console();
@@ -47,12 +46,12 @@ public class Main {
         }
     }
 
-    private void mainMenuLoop() throws IOException {
+    private void mainMenuLoop() throws IOException, MqttException {
         System.out.println("Aktuelle Daten:");
         System.out.println("Temperatursensor, gemessene Temperatur: " + clientData.getTemperature());
         System.out.println("Heizung, Richttemperatur: " + clientData.getTempTarget());
         System.out.println("Heizung ist : " + (clientData.isHeatingOn() ? "AN" : "AUS"));
-        System.out.println("R: Daten refreshen:");
+        System.out.println("Enter: Daten refreshen");
         System.out.println("T: Neue Richttemperatur eingeben:");
         System.out.println("X: Programm beenden");
 
@@ -62,18 +61,17 @@ public class Main {
         if("T".equals(input)){
             System.out.println("Bitte Temperatur eingeben: ");
             try {
-//                console.flush();
                 input = console.readLine();
-                System.out.println("DEBUG: " + input.substring(1));
                 int temp = Integer.parseInt(input);
                 publishTempTarget(temp);
-                console.format("Neue gesetzte Temperatur ist: " + clientData.getTempTarget());
-                console.format("\n\n");
+                console.format("\n\nNeue gesetzte Temperatur ist: " + input);
+                console.format("\n");
             } catch (Exception ex){
                 System.out.println("Eingabe leider nicht erkannt\n\n");
             }
         } else if("X".equals(input)){
             isRunning = false;
+            client.disconnect();
         }
     }
 

@@ -8,6 +8,7 @@ public class Main {
     private final String LIVINGROOM_HEATING = "livingroom/heating";
     private final String LIVINGROOM_TEMPERATURE = "livingroom/temperature";
     private final String LIVINGROOM_TEMP_TARGET = "livingroom/temperature/target";
+    private final String MOSQUITTO_URL = "tcp://localhost:1883";
 
     private MqttClient client;
     private ObjectMapper objMap;
@@ -20,7 +21,7 @@ public class Main {
 
     private Main() throws MqttException, InterruptedException, JsonProcessingException {
         objMap = new ObjectMapper();
-        client = new MqttClient("tcp://localhost:1883", MqttClient.generateClientId());
+        client = new MqttClient(MOSQUITTO_URL, MqttClient.generateClientId());
         heating = new Heating();
 
         try {
@@ -65,7 +66,7 @@ public class Main {
                     heating.setTemperature(temp);
                     publishHeatingState();
                 } else {
-                    System.out.println("wut");
+                    System.out.println("This shouldn't happen! Bad, Mosquitto, bad!");
                 }
             }
 

@@ -8,6 +8,8 @@ public class Main {
     private MqttClient client;
     private ObjectMapper objMap;
     private boolean connected;
+    private final String MOSQUITTO_URL = "tcp://localhost:1883";
+
 
     public static void main(String[] args) throws MqttException, InterruptedException, JsonProcessingException {
         new Main();
@@ -22,7 +24,7 @@ public class Main {
             connected = true;
 
         } catch (MqttException ex) {
-            System.out.println(ex.getMessage() + "");
+            System.out.println(ex.getMessage() + "Could not connect to MQTT Server!");
             connected = false;
         }
 
