@@ -1,6 +1,9 @@
 
 ## Install ##
 * Mosquitto (oder sonstigen Broker) installieren und starten (Port 1883)
+    * Mit Arch Linux: 
+        * sudo pacman -S mosquitto
+        * sudo systemctl start mosquitto.service
 * In Projekt *Temperatursensor*:
     * gradle jar
     * java -jar build/libs/temperatursensor-1.0.jar
@@ -31,7 +34,15 @@
     * Empfängt Temperaturdaten​
     * Kann neuen Richtwert senden​
 
+## Schnittstellenbeschreibung
+* Alle angegebenen Schnittstellen senden JSON-Objekte mit je einem Feld  
+* livingroom/heating - Zustand der Heizung - "heatingOn"  (boolean)
+* livingroom/temperature - Gemessene Temperatur - "temperature" (int)
+* livingroom/temperature/target - Richttemperatur - "temperature" (int)
+
 ## Fehlerszenarien #
-1) MQTT Server läuft nicht:  
-    Die Heizung empfängt keine neuen Temperaturdaten und wechselt ihren Status nicht mehr.
+*  MQTT Server läuft nicht:  
+    Die Heizung empfängt keine neuen Temperaturdaten und wechselt ihren Status nicht mehr.  
     Der Client kann keine neue Richttemperatur einstellen.
+*  Temperatursensor sendet keine Daten:  
+    Heizung verlässt sich auf veraltete Daten.
