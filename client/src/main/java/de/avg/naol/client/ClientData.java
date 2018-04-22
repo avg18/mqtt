@@ -32,6 +32,6 @@ public class ClientData {
     }
 
     public void setHeatingOn(boolean heatingOn) {
-        isHeatingOn = heatingOn;
+        this.isHeatingOn = heatingOn;
     }
 }
